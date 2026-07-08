@@ -25,6 +25,6 @@ export const routes: Routes = [
   { path: 'produtos/:id', component: ProdutoDetalheComponent },
   { path: 'checkout', component: CheckoutComponent },
   { path: 'checkout/resumo/:id', component: CheckoutResumoComponent },
-  { path: 'pedidos', component: PedidosComponent },
+  { path: 'pedidos', component: PedidosComponent, canActivate: [gerenteGuard] },
   { path: '**', redirectTo: '/produtos' }
 ];

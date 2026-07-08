@@ -31,7 +31,7 @@
         <a routerLink="/produtos" routerLinkActive="bg-primary-500 text-background-50" class="rounded-full border border-primary-200 px-4 py-2 font-mono text-xs font-bold uppercase tracking-[0.16em] text-text-300 hover:text-primary-500">Ofertas</a>
         <a *ngIf="authService.usuarioAtual?.gerente" routerLink="/clientes" routerLinkActive="bg-primary-500 text-background-50" class="rounded-full border border-primary-200 px-4 py-2 font-mono text-xs font-bold uppercase tracking-[0.16em] text-text-300 hover:text-primary-500">Clientes</a>
         <a *ngIf="authService.usuarioAtual?.gerente" routerLink="/cupons" routerLinkActive="bg-primary-500 text-background-50" class="rounded-full border border-primary-200 px-4 py-2 font-mono text-xs font-bold uppercase tracking-[0.16em] text-text-300 hover:text-primary-500">Cupons</a>
-        <a routerLink="/pedidos" routerLinkActive="bg-primary-500 text-background-50" class="rounded-full border border-primary-200 px-4 py-2 font-mono text-xs font-bold uppercase tracking-[0.16em] text-text-300 hover:text-primary-500">Pedidos</a>
+        <a *ngIf="authService.usuarioAtual?.gerente" routerLink="/pedidos" routerLinkActive="bg-primary-500 text-background-50" class="rounded-full border border-primary-200 px-4 py-2 font-mono text-xs font-bold uppercase tracking-[0.16em] text-text-300 hover:text-primary-500">Pedidos</a>
       </div>
     </nav>
   </header>
