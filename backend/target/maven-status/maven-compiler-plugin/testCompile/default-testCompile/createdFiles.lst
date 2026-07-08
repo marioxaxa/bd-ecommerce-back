@@ -1,0 +1,8 @@
+com\ecommerce\repository\CarrinhoRepositoryTest.class
+com\ecommerce\repository\UsuarioRepositoryTest.class
+com\ecommerce\service\ProdutoServiceTest.class
+com\ecommerce\service\PedidoServiceTest.class
+com\ecommerce\repository\ProdutoRepositoryTest.class
+com\ecommerce\repository\PedidoRepositoryTest.class
+com\ecommerce\service\UsuarioServiceTest.class
+com\ecommerce\service\CarrinhoServiceTest.class

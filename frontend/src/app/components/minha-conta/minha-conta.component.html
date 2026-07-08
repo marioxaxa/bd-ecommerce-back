@@ -1,0 +1,56 @@
+<section>
+  <p class="page-kicker">Minha conta</p>
+  <h2 class="page-title">Olá, {{ usuario?.username }}</h2>
+
+  <div class="mt-8 grid gap-6 lg:grid-cols-2">
+    <div class="lab-card space-y-4">
+      <p class="lab-section-title">Dados da conta</p>
+      <div><label class="lab-label">Email</label><input class="lab-input" [value]="usuario?.email" disabled /></div>
+      <div><label class="lab-label">Username</label><input class="lab-input" [(ngModel)]="conta.username" /></div>
+      <div><label class="lab-label">Nova senha</label><input class="lab-input" type="password" [(ngModel)]="conta.senha" placeholder="Deixe em branco para manter" /></div>
+      <button class="lab-button" (click)="salvarConta()">Salvar dados</button>
+      <p class="text-sm font-semibold text-primary-500">{{ mensagemConta }}</p>
+      <button class="lab-link-danger" (click)="sair()">Deslogar</button>
+    </div>
+
+    <div class="lab-card">
+      <p class="lab-section-title">Meus pedidos</p>
+      <div class="space-y-3">
+        <a *ngFor="let pedido of pedidos" [routerLink]="['/checkout/resumo', pedido.codigo]" class="block rounded-2xl border border-primary-200 p-4 font-mono text-sm font-bold text-text-300">Pedido #{{ pedido.codigo }}</a>
+        <p *ngIf="pedidos.length === 0" class="text-text-500">Nenhum pedido encontrado.</p>
+      </div>
+    </div>
+
+    <div class="lab-card">
+      <p class="lab-section-title">Endereços cadastrados</p>
+      <div class="space-y-3">
+        <div *ngFor="let endereco of enderecos" class="rounded-2xl border border-primary-200 p-4 text-sm text-text-300"><strong>{{ endereco.nome }}</strong><br />{{ endereco.logradouro }}, {{ endereco.numero }} - {{ endereco.bairro }} - CEP {{ endereco.cep }}</div>
+        <p *ngIf="enderecos.length === 0" class="text-text-500">Nenhum endereço cadastrado.</p>
+      </div>
+      <div class="mt-6 grid gap-3 sm:grid-cols-2">
+        <div><label class="lab-label">Apelido</label><input class="lab-input" [(ngModel)]="novoEndereco.nome" /></div>
+        <div><label class="lab-label">CEP</label><input class="lab-input" type="number" [(ngModel)]="novoEndereco.cep" /></div>
+        <div class="sm:col-span-2"><label class="lab-label">Logradouro</label><input class="lab-input" [(ngModel)]="novoEndereco.logradouro" /></div>
+        <div><label class="lab-label">Número</label><input class="lab-input" type="number" [(ngModel)]="novoEndereco.numero" /></div>
+        <div><label class="lab-label">Bairro</label><input class="lab-input" [(ngModel)]="novoEndereco.bairro" /></div>
+      </div>
+      <button class="lab-button mt-4" (click)="cadastrarEndereco()">Cadastrar endereço</button>
+      <p class="mt-2 text-sm font-semibold text-primary-500">{{ mensagemEndereco }}</p>
+    </div>
+
+    <div class="lab-card space-y-4">
+      <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <p class="lab-section-title">Produtos criados</p>
+        <a routerLink="/produtos/novo" class="lab-button">Criar novo produto</a>
+      </div>
+      <div class="space-y-3">
+        <div *ngFor="let produto of produtos" class="rounded-2xl border border-primary-200 p-4">
+          <h3 class="text-xl font-black text-text-100">{{ produto.nome }}</h3>
+          <p class="text-sm text-text-400">{{ produto.marca }} - {{ produto.descricao }}</p>
+          <a [routerLink]="['/produtos', produto.id, 'editar']" class="mt-3 inline-flex font-mono text-xs font-black uppercase tracking-[0.16em] text-primary-500">Editar</a>
+        </div>
+        <p *ngIf="produtos.length === 0" class="text-text-500">Você ainda não criou produtos.</p>
+      </div>
+    </div>
+  </div>
+</section>

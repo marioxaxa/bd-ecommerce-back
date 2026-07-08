@@ -1,0 +1,32 @@
+<section *ngIf="resumo" class="space-y-6">
+  <div class="lab-card">
+    <p class="page-kicker">Pedido confirmado</p>
+    <h2 class="page-title">Compra #{{ resumo.pedido.codigo }}</h2>
+    <p class="page-copy">Pedido criado no backend com carrinho, entrega, pagamento e itens relacionados.</p>
+  </div>
+
+  <div class="grid gap-6 lg:grid-cols-3">
+    <div class="lab-card-tight"><p class="lab-label">Cliente</p><p class="text-2xl font-black">{{ resumo.cliente.username }}</p><p class="text-text-400">CPF {{ resumo.cliente.cpf }}</p></div>
+    <div class="lab-card-tight"><p class="lab-label">Entrega</p><p class="text-2xl font-black">{{ resumo.endereco.nome }}</p><p class="text-text-400">{{ resumo.endereco.logradouro }}, {{ resumo.endereco.numero }}</p></div>
+    <div class="lab-card-tight"><p class="lab-label">Status</p><p class="text-2xl font-black">{{ resumo.entrega.status }}</p><p class="text-text-400">Rastreio {{ resumo.entrega.codigoRastreio }}</p></div>
+  </div>
+
+  <div class="lab-card overflow-hidden">
+    <p class="lab-section-title">Itens comprados</p>
+    <div class="overflow-x-auto rounded-2xl border border-primary-200">
+      <table class="lab-table">
+        <thead><tr><th>Produto</th><th>Variação</th><th>Qtd</th><th>Subtotal</th></tr></thead>
+        <tbody>
+          <tr *ngFor="let item of resumo.itens"><td>{{ item.produto.nome }}</td><td>{{ item.variacao.nome }}</td><td>{{ item.quantidade }}</td><td>R$ {{ item.subtotal | number:'1.2-2' }}</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="lab-card ml-auto max-w-md space-y-3">
+    <div class="flex justify-between"><span>Subtotal</span><strong>R$ {{ resumo.subtotal | number:'1.2-2' }}</strong></div>
+    <div class="flex justify-between"><span>Desconto</span><strong>- R$ {{ resumo.desconto | number:'1.2-2' }}</strong></div>
+    <div class="border-t border-primary-200 pt-4 flex justify-between text-xl"><span>Total</span><strong class="text-primary-500">R$ {{ resumo.total | number:'1.2-2' }}</strong></div>
+    <a routerLink="/produtos" class="lab-button mt-4 w-full">Continuar comprando</a>
+  </div>
+</section>

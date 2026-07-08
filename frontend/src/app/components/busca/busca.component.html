@@ -1,0 +1,24 @@
+<section>
+  <p class="page-kicker">Resultados</p>
+  <h2 class="page-title">Busca por "{{ termo }}"</h2>
+  <p class="page-copy">Resultados filtrados no frontend por nome, marca, fabricante e categoria.</p>
+
+  <div class="mt-8 grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
+    <a *ngFor="let produto of produtos" [routerLink]="['/produtos', produto.id]" class="lab-card block overflow-hidden p-0">
+      <div class="aspect-[4/3] bg-gradient-to-br from-background-900 via-primary-900 to-secondary-800 p-4">
+        <img *ngIf="fotosPorProduto[produto.id]" [src]="fotosPorProduto[produto.id]" [alt]="produto.nome" class="h-full w-full rounded-[1.5rem] border border-primary-300 object-cover" />
+        <div *ngIf="!fotosPorProduto[produto.id]" class="flex h-full items-center justify-center rounded-[1.5rem] border border-primary-300 bg-background-950/70 text-center">
+          <h3 class="text-3xl font-black text-primary-500">{{ produto.nome }}</h3>
+        </div>
+      </div>
+      <div class="p-5">
+        <p class="lab-badge w-fit">{{ getCategoriaNome(produto.categoriaId) }}</p>
+        <h3 class="mt-4 text-3xl font-black text-text-100">{{ produto.nome }}</h3>
+        <p class="mt-2 text-sm text-text-400">{{ produto.marca }} - {{ produto.fabricante }}</p>
+        <span class="mt-5 inline-flex font-mono text-xs font-black uppercase tracking-[0.16em] text-primary-500">Ver oferta</span>
+      </div>
+    </a>
+  </div>
+
+  <div *ngIf="produtos.length === 0" class="lab-card mt-8 text-center text-text-500">Nenhum resultado encontrado.</div>
+</section>

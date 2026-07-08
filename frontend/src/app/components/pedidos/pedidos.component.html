@@ -1,0 +1,93 @@
+<section>
+  <p class="page-kicker">Leitura validada</p>
+  <h2 class="page-title">Histórico</h2>
+  <p class="page-copy">Histórico montado a partir do resumo detalhado de cada pedido salvo no backend.</p>
+
+  <div *ngIf="carregando" class="lab-card mt-8 p-12 text-center">
+    <div class="mx-auto h-14 w-14 animate-spin rounded-full border-4 border-primary-200 border-b-primary-500"></div>
+    <p class="mt-5 font-mono text-xs font-bold uppercase tracking-[0.18em] text-text-400">Buscando pedidos</p>
+  </div>
+
+  <div *ngIf="!carregando && pedidosDetalhados.length === 0" class="lab-card mt-8 p-12 text-center">
+    <p class="mx-auto max-w-md text-text-400">Nenhum pedido encontrado. Finalize uma compra para testar a leitura da cadeia.</p>
+  </div>
+
+  <div *ngIf="!carregando && pedidosDetalhados.length > 0" class="mt-8 space-y-5">
+    <article *ngFor="let pd of pedidosDetalhados; let i = index" class="lab-card overflow-hidden p-0">
+      <button type="button" (click)="toggleExpansao(i)" class="grid w-full gap-5 p-5 text-left transition hover:bg-background-800/70 md:grid-cols-[1fr_160px_120px_40px] md:items-center md:p-7">
+        <div class="flex items-start gap-4">
+          <div class="mt-1 flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-primary-300 bg-background-950 font-mono text-xs font-black text-primary-500">FK</div>
+          <div>
+            <p class="font-mono text-xs font-bold uppercase tracking-[0.18em] text-primary-400">pedido.codigo {{ pd.pedido.codigo }}</p>
+            <h3 class="mt-1 text-3xl font-black leading-none text-text-100">{{ pd.cliente.username }}</h3>
+            <p class="mt-2 text-sm text-text-400">CPF {{ pd.cliente.cpf }} ligado ao carrinho {{ pd.pedido.carrinhoId }}</p>
+          </div>
+        </div>
+
+        <div>
+          <p class="font-mono text-[0.65rem] font-bold uppercase tracking-[0.18em] text-text-400">Total</p>
+          <p class="mt-1 text-2xl font-black text-primary-500">R$ {{ pd.total | number:'1.2-2' }}</p>
+        </div>
+
+        <div>
+          <p class="font-mono text-[0.65rem] font-bold uppercase tracking-[0.18em] text-text-400">Itens</p>
+          <p class="mt-1 text-2xl font-black text-text-100">{{ pd.itens.length }}</p>
+        </div>
+
+        <div class="justify-self-end">
+          <span class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-primary-300 text-primary-500 transition" [class.rotate-180]="pd.expandido">⌄</span>
+        </div>
+      </button>
+
+      <div *ngIf="pd.expandido" class="border-t border-primary-200 bg-background-800/60 p-5 md:p-7">
+        <div class="mb-5 grid gap-3 md:grid-cols-4">
+          <div class="lab-card-tight"><p class="lab-label">Carrinho</p><p class="font-mono text-text-100">{{ pd.pedido.carrinhoId }}</p></div>
+          <div class="lab-card-tight"><p class="lab-label">Pagamento</p><p class="font-mono text-text-100">{{ pd.pedido.pagamentoId }}</p></div>
+          <div class="lab-card-tight"><p class="lab-label">Entrega</p><p class="font-mono text-text-100">{{ pd.pedido.entregaId }}</p></div>
+          <div class="lab-card-tight"><p class="lab-label">Cupom</p><p class="font-mono text-text-100">{{ pd.pedido.cupomCodigo }}</p></div>
+        </div>
+
+        <div *ngIf="pd.itens.length === 0" class="rounded-2xl border border-primary-200 bg-background-900 p-8 text-center text-text-500">
+          O pedido foi encontrado, mas nenhum item voltou da relação contem.
+        </div>
+
+        <div *ngIf="pd.itens.length > 0" class="overflow-x-auto rounded-2xl border border-primary-200 bg-background-900">
+          <table class="lab-table">
+            <thead>
+              <tr>
+                <th>Produto</th>
+                <th>Variação</th>
+                <th>Unitário</th>
+                <th>Qtd</th>
+                <th>Subtotal</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of pd.itens">
+                <td class="font-semibold">{{ item.produto.nome }}</td>
+                <td class="text-text-400">{{ item.variacao.nome }}</td>
+                <td class="font-mono">R$ {{ item.variacao.preco | number:'1.2-2' }}</td>
+                <td class="font-mono">{{ item.quantidade }}</td>
+                <td class="font-mono font-bold">R$ {{ item.subtotal | number:'1.2-2' }}</td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="4" class="px-4 py-4 text-right font-mono text-xs font-bold uppercase tracking-[0.18em] text-text-400">Subtotal</td>
+                <td class="px-4 py-4 font-mono text-lg font-black text-text-100">R$ {{ pd.subtotal | number:'1.2-2' }}</td>
+              </tr>
+              <tr>
+                <td colspan="4" class="px-4 py-4 text-right font-mono text-xs font-bold uppercase tracking-[0.18em] text-text-400">Desconto</td>
+                <td class="px-4 py-4 font-mono text-lg font-black text-primary-500">- R$ {{ pd.desconto | number:'1.2-2' }}</td>
+              </tr>
+              <tr>
+                <td colspan="4" class="px-4 py-4 text-right font-mono text-xs font-bold uppercase tracking-[0.18em] text-text-400">Total</td>
+                <td class="px-4 py-4 font-mono text-lg font-black text-primary-500">R$ {{ pd.total | number:'1.2-2' }}</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>

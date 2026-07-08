@@ -1,0 +1,91 @@
+<section>
+  <p class="page-kicker">Checkout Marcel</p>
+  <h2 class="page-title">Fechar compra</h2>
+  <p class="page-copy">Revise o carrinho, escolha entrega, aplique cupom e selecione a forma de pagamento.</p>
+
+  <div *ngIf="!usuario" class="lab-card mt-8 text-center">
+    <h3 class="text-3xl font-black text-text-100">Entre para continuar</h3>
+    <p class="mt-2 text-text-400">O checkout precisa de um cliente atual para criar o pedido.</p>
+    <a routerLink="/auth" class="lab-button mt-6">Entrar ou cadastrar</a>
+  </div>
+
+  <div *ngIf="usuario" class="mt-8 grid gap-6 lg:grid-cols-[1fr_380px]">
+    <div class="space-y-6">
+      <div class="lab-card overflow-hidden">
+        <p class="lab-section-title">Produtos no carrinho</p>
+        <div class="overflow-x-auto rounded-2xl border border-primary-200">
+          <table class="lab-table">
+            <thead><tr><th>Produto</th><th>Opção</th><th>Preço</th><th>Qtd</th><th>Subtotal</th><th></th></tr></thead>
+            <tbody>
+              <tr *ngFor="let item of itens">
+                <td class="font-semibold">{{ item.produto.nome }}</td>
+                <td>{{ item.variacao.nome }}</td>
+                <td class="font-mono">R$ {{ item.variacao.preco | number:'1.2-2' }}</td>
+                <td class="font-mono">{{ item.quantidade }}</td>
+                <td class="font-mono font-bold">R$ {{ item.variacao.preco * item.quantidade | number:'1.2-2' }}</td>
+                <td><button class="lab-link-danger" (click)="remover(item.variacao.id)">Remover</button></td>
+              </tr>
+              <tr *ngIf="itens.length === 0"><td colspan="6" class="py-10 text-center text-text-500">Carrinho vazio.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="lab-card space-y-4">
+        <p class="lab-section-title">Entrega</p>
+        <label class="flex items-center gap-3 text-sm font-semibold text-text-300"><input type="checkbox" [(ngModel)]="usarNovoEndereco" /> Cadastrar novo endereço</label>
+
+        <select *ngIf="!usarNovoEndereco" class="lab-input" [(ngModel)]="enderecoId">
+          <option [ngValue]="null">Selecione um endereço</option>
+          <option *ngFor="let endereco of enderecos" [ngValue]="endereco.id">{{ endereco.nome }} - {{ endereco.logradouro }}, {{ endereco.numero }}</option>
+        </select>
+
+        <div *ngIf="usarNovoEndereco" class="grid gap-4 sm:grid-cols-2">
+          <div><label class="lab-label">Apelido</label><input class="lab-input" [(ngModel)]="novoEndereco.nome" /></div>
+          <div><label class="lab-label">CEP</label><input class="lab-input" type="number" [(ngModel)]="novoEndereco.cep" /></div>
+          <div class="sm:col-span-2"><label class="lab-label">Logradouro</label><input class="lab-input" [(ngModel)]="novoEndereco.logradouro" /></div>
+          <div><label class="lab-label">Número</label><input class="lab-input" type="number" [(ngModel)]="novoEndereco.numero" /></div>
+          <div><label class="lab-label">Bairro</label><input class="lab-input" [(ngModel)]="novoEndereco.bairro" /></div>
+        </div>
+      </div>
+
+      <div class="lab-card space-y-4">
+        <p class="lab-section-title">Cupom e pagamento</p>
+        <div class="flex gap-3">
+          <input class="lab-input" [(ngModel)]="cupomTexto" placeholder="Código do cupom" />
+          <button class="lab-button-secondary shrink-0" (click)="validarCupom()">Validar</button>
+        </div>
+        <p class="text-sm font-semibold text-primary-500" [hidden]="!mensagemCupom">{{ mensagemCupom }}</p>
+
+        <div class="grid gap-3 sm:grid-cols-3">
+          <label class="cursor-pointer rounded-2xl border p-4 font-bold" [class.border-primary-500]="pagamento.tipo === 'pix'" [class.bg-primary-900]="pagamento.tipo === 'pix'">
+            <input class="mr-2" type="radio" name="tipoPagamento" value="pix" [(ngModel)]="pagamento.tipo" /> Pix
+          </label>
+          <label class="cursor-pointer rounded-2xl border p-4 font-bold" [class.border-primary-500]="pagamento.tipo === 'boleto'" [class.bg-primary-900]="pagamento.tipo === 'boleto'">
+            <input class="mr-2" type="radio" name="tipoPagamento" value="boleto" [(ngModel)]="pagamento.tipo" /> Boleto
+          </label>
+          <label class="cursor-pointer rounded-2xl border p-4 font-bold" [class.border-primary-500]="pagamento.tipo === 'cartao'" [class.bg-primary-900]="pagamento.tipo === 'cartao'">
+            <input class="mr-2" type="radio" name="tipoPagamento" value="cartao" [(ngModel)]="pagamento.tipo" /> Cartão
+          </label>
+        </div>
+
+        <div *ngIf="pagamento.tipo === 'cartao'" class="grid gap-4 sm:grid-cols-2">
+          <div><label class="lab-label">Titular</label><input class="lab-input" [(ngModel)]="pagamento.titular" /></div>
+          <div><label class="lab-label">Número</label><input class="lab-input" type="number" [(ngModel)]="pagamento.numero" /></div>
+          <div><label class="lab-label">CVV</label><input class="lab-input" type="number" [(ngModel)]="pagamento.cvv" /></div>
+          <div><label class="lab-label">Parcelas</label><input class="lab-input" type="number" [(ngModel)]="pagamento.numeroParcelas" /></div>
+        </div>
+      </div>
+    </div>
+
+    <aside class="lab-card h-fit lg:sticky lg:top-28">
+      <p class="lab-section-title">Resumo</p>
+      <div class="space-y-3 text-sm text-text-400">
+        <div class="flex justify-between"><span>Subtotal</span><strong class="text-text-100">R$ {{ subtotal() | number:'1.2-2' }}</strong></div>
+        <div class="flex justify-between"><span>Desconto</span><strong class="text-primary-500">- R$ {{ desconto | number:'1.2-2' }}</strong></div>
+        <div class="border-t border-primary-200 pt-4 flex justify-between text-lg"><span>Total</span><strong class="text-3xl text-primary-500">R$ {{ total() | number:'1.2-2' }}</strong></div>
+      </div>
+      <button class="lab-button mt-6 w-full" [disabled]="processando || itens.length === 0" (click)="finalizarCompra()">{{ processando ? 'Finalizando...' : 'Finalizar compra' }}</button>
+    </aside>
+  </div>
+</section>

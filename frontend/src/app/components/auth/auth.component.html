@@ -1,0 +1,40 @@
+<section class="grid gap-8 lg:grid-cols-[1fr_460px] lg:items-start">
+  <div class="pt-8">
+    <p class="page-kicker">Marcel Pechinchas</p>
+    <h2 class="page-title">Entre para comprar barato sem perder o rastro do pedido.</h2>
+    <p class="page-copy">A sessão é local para a PoC: ela define o cliente atual, alimenta o carrinho e permite finalizar compras reais no backend.</p>
+    <div class="mt-8 grid max-w-2xl gap-4 sm:grid-cols-3">
+      <div class="lab-card-tight"><p class="lab-label">Sessão</p><p class="text-2xl font-black">localStorage</p></div>
+      <div class="lab-card-tight"><p class="lab-label">Cliente</p><p class="text-2xl font-black">CPF</p></div>
+      <div class="lab-card-tight"><p class="lab-label">Compra</p><p class="text-2xl font-black">Carrinho</p></div>
+    </div>
+  </div>
+
+  <div class="space-y-5">
+    <form (ngSubmit)="entrar()" class="lab-card space-y-4">
+      <p class="lab-section-title">Entrar</p>
+      <div>
+        <label class="lab-label">Email</label>
+        <input class="lab-input" type="email" [(ngModel)]="loginEmail" name="loginEmail" placeholder="voce@email.com" />
+      </div>
+      <div>
+        <label class="lab-label">Senha</label>
+        <input class="lab-input" type="password" [(ngModel)]="loginSenha" name="loginSenha" placeholder="sua senha" />
+      </div>
+      <button class="lab-button w-full" type="submit">Entrar</button>
+    </form>
+
+    <form (ngSubmit)="cadastrar()" class="lab-card space-y-4">
+      <p class="lab-section-title">Criar conta</p>
+      <div class="grid gap-4 sm:grid-cols-2">
+        <div><label class="lab-label">CPF</label><input class="lab-input" type="number" [(ngModel)]="novoUsuario.cpf" name="cpf" /></div>
+        <div><label class="lab-label">Nome</label><input class="lab-input" [(ngModel)]="novoUsuario.username" name="username" /></div>
+      </div>
+      <div><label class="lab-label">Email</label><input class="lab-input" type="email" [(ngModel)]="novoUsuario.email" name="email" /></div>
+      <div><label class="lab-label">Senha</label><input class="lab-input" type="password" [(ngModel)]="novoUsuario.senha" name="senha" /></div>
+      <button class="lab-button-secondary w-full" type="submit">Criar conta e entrar</button>
+    </form>
+
+    <p class="rounded-xl border border-accent-300 bg-accent-900 p-3 text-sm font-semibold text-accent-200" [hidden]="!erro">{{ erro }}</p>
+  </div>
+</section>

@@ -1,0 +1,82 @@
+<section>
+  <p class="page-kicker">Entidade base</p>
+  <h2 class="page-title">Clientes</h2>
+
+  <div class="mt-8 grid gap-6 lg:grid-cols-[420px_1fr]">
+    <form (ngSubmit)="salvarUsuario()" class="lab-card space-y-5">
+      <div>
+        <p class="lab-section-title">Inserir cliente</p>
+        <p class="text-sm leading-6 text-text-400">Use valores curtos e repetíveis para testar constraints e relacionamentos.</p>
+      </div>
+
+      <div>
+        <label class="lab-label">CPF / PK</label>
+        <input type="number" [(ngModel)]="novoUsuario.cpf" name="cpf" class="lab-input" placeholder="123456789" required />
+      </div>
+
+      <div>
+        <label class="lab-label">Nome de acesso</label>
+        <input type="text" [(ngModel)]="novoUsuario.username" name="username" class="lab-input" placeholder="ana.teste" required />
+      </div>
+
+      <div>
+        <label class="lab-label">Email</label>
+        <input type="email" [(ngModel)]="novoUsuario.email" name="email" class="lab-input" placeholder="ana@exemplo.com" required />
+      </div>
+
+      <div>
+        <label class="lab-label">Senha</label>
+        <input type="password" [(ngModel)]="novoUsuario.senha" name="senha" class="lab-input" placeholder="senha temporária" required />
+      </div>
+
+      <label class="flex items-center gap-3 rounded-xl border border-primary-200 bg-background-950 p-4 text-sm font-semibold text-text-300">
+        <input type="checkbox" [(ngModel)]="novoUsuario.gerente" name="gerente" class="h-4 w-4 rounded border-primary-300 text-primary-500 focus:ring-primary-500" />
+        Perfil gerente
+      </label>
+
+      <button type="submit" class="lab-button w-full">Salvar cliente</button>
+    </form>
+
+    <div class="lab-card overflow-hidden">
+      <div class="mb-5 flex items-end justify-between gap-4">
+        <div>
+          <p class="lab-section-title mb-1">Registros atuais</p>
+          <h3 class="text-2xl font-black text-text-100">{{ usuarios.length }} clientes no banco</h3>
+        </div>
+        <span class="lab-badge">usuario.cpf</span>
+      </div>
+
+      <div class="overflow-x-auto rounded-2xl border border-primary-200">
+        <table class="lab-table">
+          <thead>
+            <tr>
+              <th>CPF</th>
+              <th>Username</th>
+              <th>Email</th>
+              <th>Perfil</th>
+              <th>Ação</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let usuario of usuarios">
+              <td class="font-mono">{{ usuario.cpf }}</td>
+              <td class="font-semibold">{{ usuario.username }}</td>
+              <td class="text-text-400">{{ usuario.email }}</td>
+              <td>
+                <span [class]="usuario.gerente ? 'lab-badge bg-accent-800 text-accent-200' : 'lab-badge'">
+                  {{ usuario.gerente ? 'gerente' : 'cliente' }}
+                </span>
+              </td>
+              <td>
+                <button (click)="excluirUsuario(usuario.cpf)" class="lab-link-danger">Excluir</button>
+              </td>
+            </tr>
+            <tr *ngIf="usuarios.length === 0">
+              <td colspan="5" class="py-10 text-center text-text-500">Nenhum cliente cadastrado. Salve o primeiro registro para iniciar a cadeia.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>

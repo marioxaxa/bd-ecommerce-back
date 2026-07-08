@@ -1,0 +1,39 @@
+<section>
+  <a routerLink="/minha-conta" class="lab-link-danger">Voltar</a>
+  <p class="page-kicker">{{ editando ? 'Editar produto' : 'Novo produto' }}</p>
+  <h2 class="page-title">{{ editando ? produto.nome : 'Criar novo produto' }}</h2>
+
+  <div class="lab-card mt-8 space-y-6">
+    <div class="grid gap-4 sm:grid-cols-2">
+      <div><label class="lab-label">Nome</label><input class="lab-input" [(ngModel)]="produto.nome" /></div>
+      <div><label class="lab-label">Marca</label><input class="lab-input" [(ngModel)]="produto.marca" /></div>
+      <div><label class="lab-label">Fabricante</label><input class="lab-input" [(ngModel)]="produto.fabricante" /></div>
+      <div><label class="lab-label">Categoria</label><input class="lab-input" [(ngModel)]="categoria.descricao" placeholder="Ex: Moda" [disabled]="editando" /></div>
+      <div class="sm:col-span-2"><label class="lab-label">Descrição</label><textarea class="lab-input min-h-28" [(ngModel)]="produto.descricao"></textarea></div>
+    </div>
+
+    <div class="space-y-3" *ngIf="!editando">
+      <div class="flex items-center justify-between"><p class="lab-section-title">Atributos técnicos</p><button class="lab-button-secondary" type="button" (click)="adicionarAtributo()">Adicionar atributo</button></div>
+      <div *ngFor="let atributo of atributos; let i = index" class="grid gap-3 rounded-2xl border border-primary-200 p-4 sm:grid-cols-[1fr_1fr_auto]">
+        <input class="lab-input" [(ngModel)]="atributo.key" placeholder="Chave: tecido" />
+        <input class="lab-input" [(ngModel)]="atributo.valor" placeholder="Valor: algodao" />
+        <button class="lab-link-danger" type="button" (click)="removerAtributo(i)">Remover</button>
+      </div>
+    </div>
+
+    <div class="space-y-3" *ngIf="!editando">
+      <div class="flex items-center justify-between"><p class="lab-section-title">Variações</p><button class="lab-button-secondary" type="button" (click)="adicionarVariacao()">Adicionar variação</button></div>
+      <div *ngFor="let variacao of variacoes; let i = index" class="grid gap-3 rounded-2xl border border-primary-200 p-4 sm:grid-cols-2">
+        <input class="lab-input" [(ngModel)]="variacao.nome" placeholder="Nome: M / Azul" />
+        <input class="lab-input" type="number" [(ngModel)]="variacao.preco" placeholder="Preço" />
+        <input class="lab-input" type="number" [(ngModel)]="variacao.estoque" placeholder="Estoque" />
+        <input class="lab-input" [(ngModel)]="variacao.fotoUrl" placeholder="Foto URL" />
+        <button class="lab-link-danger" type="button" (click)="removerVariacao(i)">Remover</button>
+      </div>
+    </div>
+
+    <p *ngIf="editando" class="rounded-2xl border border-primary-200 p-4 text-sm text-text-400">Nesta edição rápida são alterados os dados principais do produto. Atributos e variações continuam visíveis na página do produto.</p>
+    <button class="lab-button" (click)="salvar()">Salvar produto</button>
+    <p class="text-sm font-semibold text-primary-500">{{ mensagem }}</p>
+  </div>
+</section>

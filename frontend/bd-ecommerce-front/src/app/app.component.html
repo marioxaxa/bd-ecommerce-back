@@ -1,0 +1,51 @@
+<div class="min-h-screen bg-gray-100">
+  <header class="bg-white shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 py-4">
+      <h1 class="text-2xl font-bold text-gray-800">{{ title }}</h1>
+      <p class="text-sm text-gray-600 mt-1">Prova de Conceito para validação do modelo relacional</p>
+    </div>
+  </header>
+
+  <nav class="bg-white border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="flex space-x-1">
+        <a
+          routerLink="/clientes"
+          routerLinkActive="text-blue-600 border-b-2 border-blue-600"
+          [routerLinkActiveOptions]="{exact: false}"
+          class="px-4 py-3 text-sm font-medium text-gray-600 hover:text-gray-800 transition-colors"
+        >
+          Clientes
+        </a>
+        <a
+          routerLink="/produtos"
+          routerLinkActive="text-blue-600 border-b-2 border-blue-600"
+          [routerLinkActiveOptions]="{exact: false}"
+          class="px-4 py-3 text-sm font-medium text-gray-600 hover:text-gray-800 transition-colors"
+        >
+          Produtos
+        </a>
+        <a
+          routerLink="/checkout"
+          routerLinkActive="text-blue-600 border-b-2 border-blue-600"
+          [routerLinkActiveOptions]="{exact: false}"
+          class="px-4 py-3 text-sm font-medium text-gray-600 hover:text-gray-800 transition-colors"
+        >
+          Nova Venda
+        </a>
+        <a
+          routerLink="/pedidos"
+          routerLinkActive="text-blue-600 border-b-2 border-blue-600"
+          [routerLinkActiveOptions]="{exact: false}"
+          class="px-4 py-3 text-sm font-medium text-gray-600 hover:text-gray-800 transition-colors"
+        >
+          Histórico
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="max-w-7xl mx-auto py-6 px-4">
+    <router-outlet />
+  </main>
+</div>

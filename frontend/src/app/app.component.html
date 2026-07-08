@@ -1,0 +1,42 @@
+<div class="min-h-screen bg-background-950">
+  <header class="sticky top-0 z-30 border-b border-primary-200 bg-background-900 shadow-sm">
+    <div class="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-4 lg:flex-row lg:items-center lg:justify-between">
+      <a routerLink="/produtos" class="flex items-center gap-3">
+        <span class="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary-500 text-2xl font-black text-background-50 shadow-[0_8px_0_rgba(73,82,20,0.18)]">M</span>
+        <span>
+          <strong class="block text-3xl font-black leading-none text-text-50">{{ title }}</strong>
+          <small class="font-mono text-xs font-bold uppercase tracking-[0.18em] text-primary-500">pechincha boa, pedido certo</small>
+        </span>
+      </a>
+
+      <form class="flex min-w-0 flex-1 items-center gap-3 lg:max-w-xl" (ngSubmit)="buscar()">
+        <input class="lab-input" name="termoBusca" [(ngModel)]="termoBusca" placeholder="Buscar ofertas, marcas e categorias" />
+        <button class="lab-button-secondary shrink-0" type="submit">Buscar</button>
+      </form>
+
+      <div class="flex items-center gap-3">
+        <a [routerLink]="authService.usuarioAtual ? '/minha-conta' : '/auth'" class="rounded-full border border-primary-200 px-4 py-2 text-sm font-bold text-text-300 hover:border-primary-500 hover:text-primary-500">
+          {{ authService.usuarioAtual?.username || 'Entrar' }}
+        </a>
+        <button *ngIf="authService.usuarioAtual" (click)="sair()" class="lab-link-danger">Sair</button>
+        <a routerLink="/checkout" class="relative rounded-full bg-primary-500 px-5 py-3 font-mono text-xs font-black uppercase tracking-[0.14em] text-background-50">
+          Carrinho
+          <span class="ml-2 rounded-full bg-background-50 px-2 py-0.5 text-primary-500">{{ cartService.items.length }}</span>
+        </a>
+      </div>
+    </div>
+
+    <nav class="border-t border-primary-200 bg-background-950">
+      <div class="mx-auto flex max-w-7xl gap-2 overflow-x-auto px-4 py-3">
+        <a routerLink="/produtos" routerLinkActive="bg-primary-500 text-background-50" class="rounded-full border border-primary-200 px-4 py-2 font-mono text-xs font-bold uppercase tracking-[0.16em] text-text-300 hover:text-primary-500">Ofertas</a>
+        <a *ngIf="authService.usuarioAtual?.gerente" routerLink="/clientes" routerLinkActive="bg-primary-500 text-background-50" class="rounded-full border border-primary-200 px-4 py-2 font-mono text-xs font-bold uppercase tracking-[0.16em] text-text-300 hover:text-primary-500">Clientes</a>
+        <a *ngIf="authService.usuarioAtual?.gerente" routerLink="/cupons" routerLinkActive="bg-primary-500 text-background-50" class="rounded-full border border-primary-200 px-4 py-2 font-mono text-xs font-bold uppercase tracking-[0.16em] text-text-300 hover:text-primary-500">Cupons</a>
+        <a routerLink="/pedidos" routerLinkActive="bg-primary-500 text-background-50" class="rounded-full border border-primary-200 px-4 py-2 font-mono text-xs font-bold uppercase tracking-[0.16em] text-text-300 hover:text-primary-500">Pedidos</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="page-shell">
+    <router-outlet />
+  </main>
+</div>
